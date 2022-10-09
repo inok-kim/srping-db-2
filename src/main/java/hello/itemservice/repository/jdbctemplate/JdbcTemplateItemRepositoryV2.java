@@ -50,6 +50,7 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
         String sql = "insert into item(item_name, price, quantity) " +
                 "values (:itemName,:price, :qauntity)";
 
+        // 자바의 프라퍼티 규약을 통해서 자동으로 파라미터 객체를 생성
         SqlParameterSource param = new BeanPropertySqlParameterSource(item); // item 으로 파라미터 생성..
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -70,7 +71,7 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
                 .addValue("itemName", updateParam.getItemName())
                 .addValue("price", updateParam.getPrice())
                 .addValue("quantity", updateParam.getQuantity())
-                .addValue("id", itemId);
+                .addValue("id", itemId); // 이 부분이 별도로 필요 (BeanPropertySqlParameterSource를 사용할 수 없다, ItemUpdateDto에 아이디 없으므로)
 
         template.update(sql, param);
     }
@@ -117,6 +118,7 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
     }
 
     private RowMapper<Item> itemRowMapper() {
+        // 컬럼이름과 객체이름이 완전히 다른 경우 조회 SQL에서 별칭을 사용하면 됨
         return BeanPropertyRowMapper.newInstance(Item.class); // camel 변환 지원
 //        return ((rs, rowNum) -> {
 //            Item item = new Item();
