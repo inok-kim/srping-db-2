@@ -46,8 +46,8 @@ class ItemRepositoryTest {
 //        transactionManager.rollback(status);
     }
 
-    @Commit // 실제 디비에 들어가는걸 확인하고 싶을때는 Commit 어노테이션 사용
-    @Transactional
+//    @Commit // 실제 디비에 들어가는걸 확인하고 싶을때는 Commit 어노테이션 사용
+//    @Transactional
     @Test
     void save() {
         //given
