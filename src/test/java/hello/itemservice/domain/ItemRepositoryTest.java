@@ -4,6 +4,7 @@ import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @Transactional // 로직이 성공적으로 수행되면 커밋하도록 동작이지만, 테스트에서 사용하면 테스트 종료 후 자동 롤백!
 @SpringBootTest // @SpringBootApplication 어노테이션을 찾아서 거기에 있는 설정을 사용
 class ItemRepositoryTest {
@@ -86,6 +88,8 @@ class ItemRepositoryTest {
         Item item2 = new Item("itemA-2", 20000, 20);
         Item item3 = new Item("itemB-1", 30000, 30);
 
+        log.info("itemRepository={}", itemRepository.getClass());
+
         itemRepository.save(item1);
         itemRepository.save(item2);
         itemRepository.save(item3);
@@ -96,7 +100,7 @@ class ItemRepositoryTest {
 
         //itemName 검증
         test("itemA", null, item1, item2);
-        test("temA", null, item1, item2);
+        test("itemA", null, item1, item2);
         test("itemB", null, item3);
 
         //maxPrice 검증
